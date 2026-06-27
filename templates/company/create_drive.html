@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    /* NAVBAR */
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    /* CARD */
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .form-label{
+        font-weight:600;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <!-- DATE -->
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+
+            <!-- LOGOUT -->
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/company/dashboard"
+                       class="btn text-start">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a href="/create-drive"
+                       class="btn text-start active-link">
+
+                        Create Drive
+
+                    </a>
+
+
+                    <a href="/manage-drives"
+                       class="btn text-start">
+
+                        Manage Drives
+
+                    </a>
+
+
+                    <a href="/company-profile"
+                       class="btn text-start">
+
+                        Company Profile
+
+                    </a>
+
+
+                    <a href="/company-support"
+                       class="btn text-start">
+
+                        Issues & Support
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <div class="card">
+
+                <div class="card-body p-5">
+
+                    <!-- TITLE -->
+
+                    <h2 class="fw-bold mb-4">
+
+                        {% if edit_mode %}
+
+                            Edit Placement Drive
+
+                        {% else %}
+
+                            Create Placement Drive
+
+                        {% endif %}
+
+                    </h2>
+
+
+
+                    <!-- FORM -->
+
+                    <form method="POST">
+
+                        <!-- JOB ROLE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Job Role
+                            </label>
+
+                            <input type="text"
+                                   name="job_role"
+                                   class="form-control"
+                                   value="{{ drive.job_role if drive else '' }}"
+                                   required>
+
+                        </div>
+
+
+
+                        <!-- PACKAGE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Package (LPA)
+                            </label>
+
+                            <input type="number"
+                                   step="0.1"
+                                   name="package"
+                                   class="form-control"
+                                   placeholder="12"
+                                   value="{{ drive.package if drive else '' }}"
+                                   required>
+
+                        </div>
+
+
+
+                        <!-- LOCATION -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Job Location
+                            </label>
+
+                            <input type="text"
+                                   name="location"
+                                   class="form-control"
+                                   placeholder="Pune"
+                                   value="{{ drive.location if drive else '' }}"
+                                   required>
+
+                        </div>
+
+
+
+                        <!-- ELIGIBILITY -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Eligibility Criteria
+                            </label>
+
+                            <input type="text"
+                                   name="eligibility"
+                                   class="form-control"
+                                   placeholder="CGPA 7+"
+                                   value="{{ drive.eligibility if drive else '' }}"
+                                   required>
+
+                        </div>
+
+
+
+                        <!-- SKILLS -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Required Skills
+                            </label>
+
+                            <textarea name="skills"
+                                      rows="4"
+                                      class="form-control"
+                                      placeholder="Python, DSA, SQL"
+                                      required>{{ drive.skills if drive else '' }}</textarea>
+
+                        </div>
+
+
+
+                        <!-- DEADLINE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Application Deadline
+                            </label>
+
+                            <input type="date"
+                                   name="deadline"
+                                   class="form-control"
+                                   value="{{ drive.deadline if drive else '' }}"
+                                   required>
+
+                        </div>
+
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Job Description
+                            </label>
+
+                            <textarea name="description"
+                                      rows="6"
+                                      class="form-control"
+                                      placeholder="Write complete job description here..."
+                                      required>{{ drive.description if drive else '' }}</textarea>
+
+                        </div>
+
+
+
+                        <!-- BUTTON -->
+
+                        <div class="text-end">
+
+                            <button type="submit"
+                                    class="btn btn-success px-5 rounded-pill">
+
+                                {% if edit_mode %}
+
+                                    Update Drive
+
+                                {% else %}
+
+                                    Create Drive
+
+                                {% endif %}
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

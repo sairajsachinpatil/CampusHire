@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .drive-card{
+        transition:0.3s;
+    }
+
+    .drive-card:hover{
+        transform:translateY(-3px);
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN SECTION -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/student/dashboard"
+                       class="btn text-start">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/my-profile"
+                       class="btn text-start">
+
+                        My Profile
+
+                    </a>
+
+                    <a href="/available-drives"
+                       class="btn text-start active-link">
+
+                        Available Drives
+
+                    </a>
+
+                    <a href="/my-applications"
+                       class="btn text-start">
+
+                        My Applications
+
+                    </a>
+
+                    <a href="/issues-queries"
+                       class="btn text-start">
+
+                        Issues & Queries
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <h2 class="fw-bold mb-4">
+
+                Available Placement Drives
+
+            </h2>
+
+
+            <div class="row">
+
+                {% if drives %}
+
+                    {% for drive in drives %}
+
+                    <div class="col-md-6 mb-4">
+
+                        <div class="card drive-card h-100">
+
+                            <div class="card-body p-4">
+
+                                <!-- COMPANY -->
+
+                                <h4 class="fw-bold mb-2">
+
+                                    {{ drive.company_name }}
+
+                                </h4>
+
+
+                                <!-- ROLE -->
+
+                                <h5 class="text-primary mb-3">
+
+                                    {{ drive.job_role }}
+
+                                </h5>
+
+
+                                <!-- DETAILS -->
+
+                                <p class="mb-2">
+
+                                    <strong>Package :</strong>
+
+                                    {{ drive.package }}
+
+                                </p>
+
+                                <p class="mb-2">
+
+                                    <strong>Location :</strong>
+
+                                    {{ drive.location }}
+
+                                </p>
+
+                                <p class="mb-2">
+
+                                    <strong>Eligibility :</strong>
+
+                                    {{ drive.eligibility }}
+
+                                </p>
+
+                                <p class="mb-2">
+
+                                    <strong>Deadline :</strong>
+
+                                    {{ drive.deadline }}
+
+                                </p>
+
+
+                                <!-- SKILLS -->
+
+                                <p class="mb-3">
+
+                                    <strong>Skills :</strong>
+
+                                    {{ drive.skills }}
+
+                                </p>
+
+
+                                <!-- DESCRIPTION -->
+
+                                <p class="text-muted">
+
+                                    {{ drive.description }}
+
+                                </p>
+                                {% if drive.id in applied_drive_ids %}
+
+                                    <button class="btn btn-secondary rounded-pill px-4 mt-2"
+                                            disabled>
+
+                                        Already Applied
+
+                                    </button>
+
+                                {% else %}
+
+                                    <a href="/apply-drive/{{ drive.id }}"
+                                    class="btn btn-primary rounded-pill px-4 mt-2">
+
+                                        Apply Now
+
+                                    </a>
+
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="col-12">
+
+                        <div class="card">
+
+                            <div class="card-body text-center py-5">
+
+                                <h4 class="text-muted">
+
+                                    No Placement Drives Available
+
+                                </h4>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

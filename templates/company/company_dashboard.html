@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .stats-number{
+        font-size:35px;
+        font-weight:700;
+    }
+
+    .stats-title{
+        color:#6B7280;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/company/dashboard"
+                       class="btn text-start active-link">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/manage-drives"
+                       class="btn text-start">
+
+                        Manage Drives
+
+                    </a>
+
+                    <a href="/company-profile"
+                       class="btn text-start">
+
+                        Company Profile
+
+                    </a>
+
+                    <a href="/company-support"
+                       class="btn text-start">
+
+                        Issues & Support
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <!-- COMPANY INFO -->
+
+            <div class="card mb-4">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold mb-3">
+
+                        {{ current_user.fullname }}
+
+                    </h2>
+
+
+                    <!-- EMAIL -->
+
+                    <p class="mb-2">
+
+                        <span class="fw-semibold">
+                            Email :
+                        </span>
+
+                        <span class="text-muted">
+
+                            {{ current_user.email }}
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- WEBSITE -->
+
+                    <p class="mb-2">
+
+                        <span class="fw-semibold">
+                            Website :
+                        </span>
+
+                        <span class="text-muted">
+
+                            {{ current_user.website }}
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- INDUSTRY -->
+
+                    <p class="mb-2">
+
+                        <span class="fw-semibold">
+                            Industry Type :
+                        </span>
+
+                        <span class="text-muted">
+
+                            {{ current_user.industry }}
+
+                        </span>
+
+                    </p>
+
+
+                    <!-- HR NAME -->
+
+                    <p class="mb-0">
+
+                        <span class="fw-semibold">
+                            HR Name :
+                        </span>
+
+                        <span class="text-muted">
+
+                            {{ current_user.hr_name }}
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+            </div>
+            <!-- STATS -->
+
+            <div class="row">
+                <!-- TOTAL DRIVES -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Total Drives
+                            </p>
+
+                            <h1 class="stats-number text-primary">
+
+                                {{ total_drives }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+
+                <!-- SHORTLISTED -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Shortlisted
+                            </p>
+
+                            
+                            <h1 class="stats-number text-warning">
+
+                                {{ shortlisted }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- SELECTED -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Selected
+                            </p>
+                            <h1 class="stats-number text-danger">
+
+                                {{ selected }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

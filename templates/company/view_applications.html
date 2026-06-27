@@ -1,0 +1,320 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .stats-number{
+        font-size:32px;
+        font-weight:700;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-4">
+
+    <!-- BACK -->
+
+    <a href="/manage-drives"
+       class="btn btn-outline-dark rounded-pill mb-4">
+
+        ← Back
+
+    </a>
+
+
+
+    <!-- JOB TITLE -->
+
+    <div class="card mb-4">
+
+        <div class="card-body p-4">
+
+            <h2 class="fw-bold mb-0">
+
+                {{ drive.job_role }}
+
+            </h2>
+
+            <p class="text-muted mb-0">
+
+                {{ drive.company_name }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- STATS -->
+
+    <div class="row">
+
+        <div class="col-md-2 mb-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <p>Total</p>
+
+                    <h2 class="stats-number">
+
+                        {{ total_applications }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2 mb-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <p>Shortlisted</p>
+
+                    <h2 class="stats-number text-warning">
+
+                        {{ shortlisted }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2 mb-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <p>Selected</p>
+
+                    <h2 class="stats-number text-success">
+
+                        {{ selected }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2 mb-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <p>Rejected</p>
+
+                    <h2 class="stats-number text-danger">
+
+                        {{ rejected }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-2 mb-4">
+
+            <div class="card">
+
+                <div class="card-body text-center">
+
+                    <p>Pending</p>
+
+                    <h2 class="stats-number text-primary">
+
+                        {{ pending }}
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- APPLICATION TABLE -->
+
+    <div class="card">
+
+        <div class="card-body p-4">
+
+            <div class="table-responsive">
+
+                <table class="table align-middle">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Name</th>
+
+                            <th>Year</th>
+
+                            <th>Department</th>
+
+                            <th>CGPA</th>
+
+                            <th>Resume</th>
+
+                            <th>Status</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% if applications %}
+
+                            {% for application in applications %}
+
+                            <tr>
+
+                                <td>
+
+                                    {{ application.student.fullname }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ application.student.year }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ application.student.department }}
+
+                                </td>
+
+                                <td>
+
+                                    {{ application.student.cgpa }}
+
+                                </td>
+
+                                <td>
+
+                                    <a href="{{ url_for(
+                                        'static',
+                                        filename='uploads/resumes/' + application.student.resume
+                                    ) }}"
+                                       target="_blank"
+                                       class="btn btn-info btn-sm rounded-pill">
+
+                                        View Resume
+
+                                    </a>
+
+                                </td>
+
+                                <td>
+
+                                    {{ application.status }}
+
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex gap-2 flex-wrap">
+
+                                        <a href="/update-application-status/{{ application.id }}/Shortlisted"
+                                           class="btn btn-warning btn-sm rounded-pill">
+
+                                            Shortlist
+
+                                        </a>
+
+                                        <a href="/update-application-status/{{ application.id }}/Selected"
+                                           class="btn btn-success btn-sm rounded-pill">
+
+                                            Select
+
+                                        </a>
+
+                                        <a href="/update-application-status/{{ application.id }}/Rejected"
+                                           class="btn btn-danger btn-sm rounded-pill">
+
+                                            Reject
+
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <tr>
+
+                                <td colspan="7"
+                                    class="text-center text-muted py-5">
+
+                                    No Applications Yet
+
+                                </td>
+
+                            </tr>
+
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

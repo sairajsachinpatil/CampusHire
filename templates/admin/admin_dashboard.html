@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ADMIN DASHBOARD STYLING -->
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    .sidebar{
+        background:#111827;
+        min-height:100vh;
+        padding:20px;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E5E7EB;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+        text-align:left;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .stats-number{
+        font-size:36px;
+        font-weight:700;
+    }
+
+    .stats-title{
+        color:#6B7280;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <!-- DATE -->
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+
+            <!-- LOGOUT -->
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/admin/dashboard"
+                       class="btn active-link">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a href="/admin/manage-companies"
+                       class="btn">
+
+                        Manage Companies
+
+                    </a>
+
+
+                    <a href="/admin/manage-drive"
+                       class="btn">
+
+                        Manage Drive
+
+                    </a>
+
+
+                    <a href="/admin/manage-students"
+                       class="btn">
+
+                        Manage Students
+
+                    </a>
+                    <a href="/admin/manage-applications"
+                        class="btn">
+
+                        Manage Applications
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <!-- ADMIN INFO -->
+
+            <div class="card mb-4">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold mb-2">
+
+                        Welcome Admin
+
+                    </h2>
+
+                    <p class="text-muted mb-0">
+
+                        Placement Portal Management Dashboard
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD STATISTICS CARDS -->
+
+            <div class="row">
+
+                <!-- TOTAL STUDENTS -->
+
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Total Students
+
+                            </p>
+
+                            <h1 class="stats-number text-primary">
+
+                                {{ total_students }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TOTAL COMPANIES -->
+
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Total Companies
+
+                            </p>
+
+                            <h1 class="stats-number text-success">
+
+                                {{ total_companies }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SELECTED STUDENTS -->
+
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Selected Students
+
+                            </p>
+
+                            <h1 class="stats-number text-success">
+
+                                {{ selected_students }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--Unselected Students-->
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Unselected Students
+
+                            </p>
+
+                            <h1 class="stats-number text-danger">
+
+                                {{ unselected_students }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--Placement Percentage-->
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Placement Percentage
+
+                            </p>
+
+                            <h1 class="stats-number text-primary">
+
+                                {{ placement_percentage }}%
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--Highest Package-->
+
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Highest Package
+
+                            </p>
+
+                            <h1 class="stats-number text-success">
+
+                                ₹ {{ highest_package }} LPA
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--Lowest Package-->
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Lowest Package
+
+                            </p>
+
+                            <h1 class="stats-number text-danger">
+
+                                ₹ {{ lowest_package }} LPA
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <!--Average  Package-->
+                <div class="col-md-4 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+
+                                Average Package
+
+                            </p>
+
+                            <h1 class="stats-number text-info">
+
+                                ₹ {{ average_package }} LPA
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+      
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,337 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .table th{
+        color:#6B7280;
+        font-weight:600;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN SECTION -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/student/dashboard"
+                       class="btn text-start">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/my-profile"
+                       class="btn text-start">
+
+                        My Profile
+
+                    </a>
+
+                    <a href="/available-drives"
+                       class="btn text-start">
+
+                        Available Drives
+
+                    </a>
+
+                    <a href="/my-applications"
+                       class="btn text-start active-link">
+
+                        My Applications
+
+                    </a>
+
+                    <a href="/issues-queries"
+                       class="btn text-start">
+
+                        Issues & Queries
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <div class="card">
+
+                <div class="card-body p-4">
+
+                    <h3 class="fw-bold mb-4">
+
+                        My Applications
+
+                    </h3>
+
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Company</th>
+
+                                    <th>Job Role</th>
+
+                                    <th>Package</th>
+
+                                    <th>Location</th>
+
+                                    <th>Status</th>
+
+                                    <th>Resume</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% if applications %}
+
+                                    {% for application in applications %}
+
+                                    <tr>
+
+                                        <!-- COMPANY -->
+
+                                        <td>
+
+                                            {{ application.drive.company_name }}
+
+                                        </td>
+
+
+                                        <!-- ROLE -->
+
+                                        <td>
+
+                                            {{ application.drive.job_role }}
+
+                                        </td>
+
+
+                                        <!-- PACKAGE -->
+
+                                        <td>
+
+                                            {{ application.drive.package }}
+
+                                        </td>
+
+
+                                        <!-- LOCATION -->
+
+                                        <td>
+
+                                            {{ application.drive.location }}
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+                                            {% if application.status == "Selected" %}
+
+                                                <span class="badge bg-success">
+
+                                                    Selected
+
+                                                </span>
+
+                                            {% elif application.status == "Rejected" %}
+
+                                                <span class="badge bg-danger">
+
+                                                    Rejected
+
+                                                </span>
+
+                                            {% elif application.status == "Shortlisted" %}
+
+                                                <span class="badge bg-warning text-dark">
+
+                                                    Shortlisted
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="badge bg-primary">
+
+                                                    Pending
+
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <!-- RESUME -->
+
+                                        <td>
+
+                                            <a href="{{ url_for(
+                                                'static',
+                                                filename='uploads/resumes/' + current_user.resume
+                                            ) }}"
+                                               target="_blank"
+                                               class="btn btn-info btn-sm rounded-pill">
+
+                                                View Resume
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <tr>
+
+                                        <td colspan="6"
+                                            class="text-center text-muted py-5">
+
+                                            No Applications Yet
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endif %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

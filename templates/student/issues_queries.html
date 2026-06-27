@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/student/dashboard"
+                       class="btn text-start">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/my-profile"
+                       class="btn text-start">
+
+                        My Profile
+
+                    </a>
+
+                    <a href="/available-drives"
+                       class="btn text-start">
+
+                        Available Drives
+
+                    </a>
+
+                    <a href="/my-applications"
+                       class="btn text-start">
+
+                        My Applications
+
+                    </a>
+
+                    <a href="/issues-queries"
+                       class="btn text-start active-link">
+
+                        Issues & Queries
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <div class="card">
+
+                <div class="card-body p-5 text-center">
+
+                    <h2 class="fw-bold mb-4">
+                        Issues & Queries
+                    </h2>
+
+                    <p class="text-muted fs-5 mb-4">
+
+                        For any technical issue,
+                        placement related query,
+                        profile problem,
+                        or support assistance,
+                        please contact the admin team.
+
+                    </p>
+
+                    <a href="mailto:admin@gmail.com"
+                       class="btn btn-primary px-5 py-3 rounded-pill">
+
+                        Contact Admin
+
+                    </a>
+
+                    <div class="mt-4">
+
+                        <p class="text-muted mb-0">
+
+                            Email :
+                            <a href="mailto:admin@gmail.com"
+                               class="text-decoration-none">
+
+                                admin@gmail.com
+
+                            </a>
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}2

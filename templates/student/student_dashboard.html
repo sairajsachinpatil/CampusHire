@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    /* NAVBAR */
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar-title{
+        color:white;
+        font-weight:700;
+        font-size:24px;
+    }
+
+    /* SIDEBAR BUTTONS */
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    /* CARDS */
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+        transition:0.3s;
+    }
+
+    .card:hover{
+        transform:translateY(-3px);
+    }
+
+    /* STUDENT INFO */
+
+    .student-name{
+        font-size:32px;
+        font-weight:700;
+        color:#111827;
+    }
+    .student-info{
+        color:#6B7280;
+        margin-bottom:10px;
+        font-size:15px;
+    }
+
+    /* STATS */
+
+    .stats-number{
+        font-size:36px;
+        font-weight:700;
+    }
+
+    .stats-title{
+        color:#6B7280;
+        font-size:15px;
+    }
+
+</style>
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <!-- DATE -->
+
+            <div>
+
+                <h5 class="fw-bold mb-1">
+
+                    <script>
+
+                        const today = new Date();
+
+                        document.write(
+
+                            today.toLocaleDateString(
+                                "en-US",
+                                {
+                                    weekday:"short",
+                                    month:"short",
+                                    day:"numeric",
+                                    year:"numeric"
+                                }
+
+                            ).replace(",", " |")
+
+                        );
+
+                    </script>
+
+                </h5>
+
+            </div>
+
+
+            <!-- LOGOUT -->
+
+            <div>
+
+                <a href="/logout"
+                   class="btn btn-danger rounded-pill px-4">
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+
+                <div class="d-grid gap-2">
+
+                    <a href="/student/dashboard"
+                       class="btn text-start active-link">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/my-profile"
+                       class="btn text-start">
+
+                        My Profile
+
+                    </a>
+
+                    <a href="/available-drives"
+                       class="btn text-start">
+
+                        Available Drives
+
+                    </a>
+
+                    <a href="/my-applications"
+                       class="btn text-start">
+
+                        My Applications
+
+                    </a>
+
+                    <a href="/issues-queries"
+                       class="btn text-start">
+
+                        Issues & Queries
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-5">
+
+
+            <!-- STUDENT INFO CARD -->
+
+            <div class="card mb-4">
+
+                <div class="card-body p-4">
+
+                    <div class="row align-items-center">
+
+                        <!-- DETAILS -->
+
+                        <div class="col-md-12">
+
+                            <h2 class="student-name mb-3">
+
+                                {{ student.fullname }}
+
+                            </h2>
+
+                            <p class="student-info">
+
+                                Department :
+                                {{ student.department }}
+
+                            </p>
+
+                            <p class="student-info">
+
+                                PRN / Roll Number :
+                                {{ student.prn }}
+
+                            </p>
+
+                            <p class="student-info">
+
+                                Current Year :
+                                {{ student.year }}
+
+                            </p>
+
+                            <p class="student-info mb-0">
+
+                                CGPA :
+                                {{ student.cgpa }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATS -->
+
+            <div class="row">
+
+
+                <!-- APPLIED -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Applied Drives
+                            </p>
+
+                            <h1 class="stats-number text-primary">
+
+                                {{ total_applications }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- SHORTLISTED -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Shortlisted
+                            </p>
+
+                            <h1 class="stats-number text-warning">
+
+                                {{ shortlisted }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- SELECTED -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Selected
+                            </p>
+
+                            <h1 class="stats-number text-success">
+
+                                {{ selected }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REJECTED -->
+
+                <div class="col-md-3 mb-4">
+
+                    <div class="card">
+
+                        <div class="card-body text-center py-4">
+
+                            <p class="stats-title">
+                                Rejected
+                            </p>
+
+                            <h1 class="stats-number text-danger">
+
+                                {{ rejected }}
+
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

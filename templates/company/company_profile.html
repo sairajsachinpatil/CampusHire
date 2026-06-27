@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    .sidebar{
+        background:#1E293B;
+        position:sticky;
+        top:20px;
+        margin:20px;
+        border-radius:20px;
+        height:fit-content;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E2E8F0;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .form-label{
+        font-weight:600;
+        color:#374151;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar p-3">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/company/dashboard"
+                       class="btn text-start">
+
+                        Dashboard
+
+                    </a>
+
+                    <a href="/manage-drives"
+                       class="btn text-start">
+
+                        Manage Drives
+
+                    </a>
+                    <a href="/company-profile"
+                       class="btn text-start active-link">
+
+                        Company Profile
+
+                    </a>
+
+                    <a href="/company-support"
+                       class="btn text-start">
+
+                        Issues & Support
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <div class="card">
+
+                <div class="card-body p-5">
+
+                    <h2 class="fw-bold mb-4">
+
+                        Company Profile
+
+                    </h2>
+
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        <!-- COMPANY NAME -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Company Name
+                            </label>
+
+                            <input type="text"
+                                   name="company_name"
+                                   class="form-control"
+                                   value="{{ current_user.fullname }}"
+                                   required>
+
+                        </div>
+
+
+
+                        <!-- COMPANY EMAIL -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Company Email
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   value="{{ current_user.email }}"
+                                   readonly>
+
+                        </div>
+
+
+
+                        <!-- WEBSITE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Company Website
+                            </label>
+
+                            <input type="url"
+                                   name="website"
+                                   class="form-control"
+                                   value="{{ company.website }}">
+
+                        </div>
+
+
+
+                        <!-- HR NAME -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                HR Name
+                            </label>
+
+                            <input type="text"
+                                   name="hr_name"
+                                   class="form-control"
+                                   value="{{ company.hr_name }}"
+
+                        </div>
+
+
+
+                        <!-- HR CONTACT -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                HR Contact Number
+                            </label>
+
+                            <input type="text"
+                                   name="hr_contact"
+                                   class="form-control"
+                                   value="{{ company.hr_contact }}">
+
+                        </div>
+
+
+
+                        <!-- COMPANY TYPE -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Industry Type
+                            </label>
+
+                            <select name="industry"
+                                    class="form-select">
+
+                                <option value="">
+                                    Select Industry
+                                </option>
+                                
+                                <option value="IT Services"
+                                {% if company.industry == "IT Services" %}
+                                selected
+                                {% endif %}>
+                                    IT Services
+                                </option>
+
+                                <option value="IT Services"
+                                {% if company.industry == "Product Based" %}
+                                selected
+                                {% endif %}>
+                                    Product Based
+                                </option>
+
+                                <option value="IT Services"
+                                {% if company.industry == "Finance" %}
+                                selected
+                                {% endif %}>
+                                    Finance
+                                </option>
+
+                                <option value="IT Services"
+                                {% if company.industry == "Consulting" %}
+                                selected
+                                {% endif %}>
+                                    Consulting
+                                </option>
+                            
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- COMPANY DESCRIPTION -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Company Description
+                            </label>
+
+                            <textarea name="description"
+                                      rows="5"
+                                      class="form-control">{{ company.description }}</textarea>
+
+                        </div>
+
+
+
+                        <!-- SAVE BUTTON -->
+
+                        <div class="text-end">
+
+                            <button type="submit"
+                                    class="btn btn-success px-5 rounded-pill">
+
+                                Save Profile
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

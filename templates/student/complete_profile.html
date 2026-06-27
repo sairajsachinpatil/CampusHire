@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-5">
+
+                    <h2 class="fw-bold mb-2 text-center">
+                        Complete Your Profile
+                    </h2>
+
+                    <p class="text-muted text-center mb-4">
+                        Fill your placement details carefully
+                    </p>
+
+                    <form action="/complete-profile" method="POST" enctype="multipart/form-data">
+
+                        <!-- PERSONAL DETAILS -->
+
+                        <h5 class="fw-semibold mb-3">
+                            Personal Details
+                        </h5>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Full Name
+                                </label>
+
+                                <input type="text"
+                                       name="name"
+                                       class="form-control"
+                                       placeholder="Enter full name"
+                                       required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Phone Number
+                                </label>
+
+                                <input type="tel"
+                                       name="phone"
+                                       class="form-control"
+                                       pattern="[0-9]{10}"
+                                       placeholder="9876543210"
+                                       required>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACADEMIC DETAILS -->
+
+                        <h5 class="fw-semibold mt-4 mb-3">
+                            Academic Details
+                        </h5>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    PRN / Roll Number
+                                </label>
+
+                                <input type="text"
+                                       name="prn"
+                                       class="form-control"
+                                       placeholder="Enter PRN / Roll Number "
+                                       required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Department
+                                </label>
+
+                                <select name="department"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">
+                                        Select Department
+                                    </option>
+
+                                    <option value="Computer Science">
+                                        Computer Science
+                                    </option>
+
+                                    <option value="Information Technology">
+                                        Information Technology
+                                    </option>
+
+                                    <option value="Electronics">
+                                        Electronics
+                                    </option>
+
+                                    <option value="Mechanical">
+                                        Mechanical
+                                    </option>
+
+                                    <option value="Civil">
+                                        Civil
+                                    </option>
+
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    Current Year
+                                </label>
+
+                                <select name="year"
+                                        class="form-select"
+                                        required>
+
+                                    <option value="">
+                                        Select Year
+                                    </option>
+
+                                    <option value="First Year">
+                                        First Year
+                                    </option>
+
+                                    <option value="Second Year">
+                                        Second Year
+                                    </option>
+
+                                    <option value="Third Year">
+                                        Third Year
+                                    </option>
+
+                                    <option value="Final Year">
+                                        Final Year
+                                    </option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    CGPA
+                                </label>
+
+                                <input type="number"
+                                       step="0.01"
+                                       min="0"
+                                       max="10"
+                                       name="cgpa"
+                                       class="form-control"
+                                       placeholder="8.50"
+                                       required>
+                            </div>
+
+                        </div>
+
+
+                        <!-- SKILLS -->
+
+                        <h5 class="fw-semibold mt-4 mb-3">
+                            Skills & Profiles
+                        </h5>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Skills
+                            </label>
+
+                            <textarea name="skills"
+                                      rows="3"
+                                      class="form-control"
+                                      placeholder="Python, Flutter, SQL, Machine Learning"></textarea>
+
+                        </div>
+
+                        <!-- RESUME -->
+
+                        <h5 class="fw-semibold mt-4 mb-3">
+                            Resume Upload
+                        </h5>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Upload Resume (PDF)
+                            </label>
+
+                            <input type="file"
+                                   name="resume"
+                                   class="form-control"
+                                   accept=".pdf"
+                                   required>
+
+                        </div>
+
+
+                        <!-- BUTTON -->
+
+                        <div class="text-center">
+
+                            <button type="submit"
+                                    class="btn btn-primary px-5 py-2 rounded-pill">
+
+                                Save Profile
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

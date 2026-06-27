@@ -1,0 +1,366 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#F5F7FB;
+    }
+
+    /* NAVBAR */
+
+    .top-navbar{
+        background:white;
+        border-bottom:1px solid #E5E7EB;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+        background:#111827;
+        min-height:100vh;
+        padding:20px;
+    }
+
+    .sidebar .btn{
+        border:none;
+        color:#E5E7EB;
+        background:transparent;
+        padding:12px 15px;
+        border-radius:12px;
+        font-weight:500;
+        transition:0.3s;
+        text-align:left;
+    }
+
+    .sidebar .btn:hover{
+        background:#2563EB;
+        color:white;
+    }
+
+    .active-link{
+        background:#2563EB !important;
+        color:white !important;
+    }
+
+    /* CARD */
+
+    .card{
+        border:none;
+        border-radius:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    .table th{
+        color:#6B7280;
+        font-weight:600;
+    }
+
+</style>
+
+
+
+<div class="container-fluid p-0">
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar top-navbar px-4 py-3">
+
+        <div class="container-fluid">
+
+            <!-- DATE -->
+
+            <h5 class="fw-bold mb-0">
+
+                <script>
+
+                    const today = new Date();
+
+                    document.write(
+
+                        today.toLocaleDateString(
+                            "en-US",
+                            {
+                                weekday:"short",
+                                month:"short",
+                                day:"numeric",
+                                year:"numeric"
+                            }
+
+                        ).replace(",", " |")
+
+                    );
+
+                </script>
+
+            </h5>
+
+
+            <!-- LOGOUT -->
+
+            <a href="/logout"
+               class="btn btn-danger rounded-pill px-4">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- MAIN LAYOUT -->
+
+    <div class="row g-0">
+
+        <!-- SIDEBAR -->
+
+        <div class="col-lg-2">
+
+            <div class="sidebar">
+
+                <div class="d-grid gap-2">
+
+                    <a href="/admin/dashboard"
+                       class="btn">
+
+                        Dashboard
+
+                    </a>
+
+
+                    <a href="/admin/manage-companies"
+                       class="btn">
+
+                        Manage Companies
+
+                    </a>
+
+
+                    <a href="/admin/manage-drive"
+                       class="btn active-link">
+
+                        Manage Drive
+
+                    </a>
+
+                    <a href="/admin/manage-students"
+                       class="btn">
+
+                        Manage Students
+
+                    </a>
+                                        <a href="/admin/manage-applications"
+                        class="btn">
+
+                        Manage Applications
+
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <div class="col-lg-10 p-4">
+
+            <div class="card">
+
+                <div class="card-body p-4">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+
+                        <h3 class="fw-bold mb-0">
+
+                            Drive Approval Requests
+
+                        </h3>
+
+                    </div>
+
+
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>Company</th>
+
+                                    <th>Job Role</th>
+
+                                    <th>Package</th>
+
+                                    <th>Location</th>
+
+                                    <th>Deadline</th>
+
+                                    <th>Status</th>
+
+                                    <th>Actions</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% if drives %}
+
+                                    {% for drive in drives %}
+
+                                    <tr>
+
+                                        <!-- COMPANY -->
+
+                                        <td>
+
+                                            {{ drive.company_name }}
+
+                                        </td>
+
+
+                                        <!-- ROLE -->
+
+                                        <td>
+
+                                            {{ drive.job_role }}
+
+                                        </td>
+
+
+                                        <!-- PACKAGE -->
+
+                                        <td>
+
+                                            {{ drive.package }}
+
+                                        </td>
+
+
+                                        <!-- LOCATION -->
+
+                                        <td>
+
+                                            {{ drive.location }}
+
+                                        </td>
+
+
+                                        <!-- DEADLINE -->
+
+                                        <td>
+
+                                            {{ drive.deadline }}
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+                                            {% if drive.admin_status == "Approved" %}
+
+                                                <span class="badge bg-success">
+
+                                                    Approved
+
+                                                </span>
+
+                                            {% elif drive.admin_status == "Rejected" %}
+
+                                                <span class="badge bg-danger">
+
+                                                    Rejected
+
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="badge bg-warning text-dark">
+
+                                                    Pending
+
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <!-- ACTIONS -->
+
+                                        <td>
+
+                                            <div class="d-flex gap-2 flex-wrap">
+
+                                                <!-- APPROVE -->
+
+                                                <a href="/approve-drive/{{ drive.id }}"
+                                                   class="btn btn-success btn-sm rounded-pill">
+
+                                                    Approve
+
+                                                </a>
+
+
+                                                <!-- REJECT -->
+
+                                                <a href="/reject-drive/{{ drive.id }}"
+                                                   class="btn btn-danger btn-sm rounded-pill">
+
+                                                    Reject
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                {% else %}
+
+                                    <tr>
+
+                                        <td colspan="7"
+                                            class="text-center text-muted py-5">
+
+                                            No Drive Approval Requests
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endif %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
